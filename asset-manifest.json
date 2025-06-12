@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.css": "/pronet/static/css/main.4e460919.css",
+    "main.js": "/pronet/static/js/main.a5419dd5.js",
+    "index.html": "/pronet/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.4e460919.css",
+    "static/js/main.a5419dd5.js"
+  ]
+}
