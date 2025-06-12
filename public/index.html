@@ -1,43 +1,319 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#667eea" />
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="AutoCare Pro - Dashboard professionnel pour la gestion de flotte de véhicules, nettoyage et entretien technique" />
+  <meta name="keywords" content="gestion flotte, véhicules, entretien, lavage, dashboard, professionnel" />
+  <meta name="author" content="AutoCare Pro" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://autocare-pro.fr/" />
+  <meta property="og:title" content="AutoCare Pro - Gestion de Flotte Professionnelle" />
+  <meta property="og:description" content="Solution complète pour la gestion, l'entretien et le nettoyage de votre flotte de véhicules" />
+  <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://autocare-pro.fr/" />
+  <meta property="twitter:title" content="AutoCare Pro - Gestion de Flotte Professionnelle" />
+  <meta property="twitter:description" content="Solution complète pour la gestion, l'entretien et le nettoyage de votre flotte de véhicules" />
+  <meta property="twitter:image" content="%PUBLIC_URL%/twitter-image.png" />
+  
+  <!-- PWA Meta Tags -->
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="AutoCare Pro" />
+  
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#667eea" />
+  <meta name="msapplication-TileImage" content="%PUBLIC_URL%/ms-icon-144x144.png" />
+  <meta name="msapplication-config" content="%PUBLIC_URL%/browserconfig.xml" />
+  
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://sheets.googleapis.com" />
+  
+  <!-- DNS Prefetch for better performance -->
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  
+  <!-- Title -->
+  <title>AutoCare Pro - Dashboard Gestion de Flotte</title>
+  
+  <!-- Inline Critical CSS for faster loading -->
+  <style>
+    /* Critical CSS pour éviter le FOUC (Flash of Unstyled Content) */
+    html {
+      line-height: 1.15;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      min-height: 100vh;
+    }
+    
+    /* Loading spinner pour le chargement initial */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    
+    .loading-spinner {
+      width: 64px;
+      height: 64px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      margin-top: 20px;
+      color: #667eea;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    /* Cache le loader une fois React chargé */
+    #root:not(:empty) + .loading-container {
+      display: none;
+    }
+    
+    /* Style pour les navigateurs non supportés */
+    .unsupported-browser {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fee2e2;
+      padding: 20px;
+      text-align: center;
+      z-index: 10000;
+    }
+    
+    /* Responsive design pour le loader */
+    @media (max-width: 768px) {
+      .loading-text {
+        font-size: 16px;
+      }
+      
+      .loading-spinner {
+        width: 48px;
+        height: 48px;
+      }
+    }
+    
+    /* Accessibilité - Respecter les préférences de mouvement */
+    @media (prefers-reduced-motion: reduce) {
+      .loading-spinner {
+        animation: none;
+        border-top-color: #667eea;
+      }
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        color: #f8fafc;
+      }
+      
+      .loading-container {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      }
+      
+      .loading-text {
+        color: #94a3b8;
+      }
+    }
+  </style>
+</head>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<body>
+  <!-- Message pour les navigateurs sans JavaScript -->
+  <noscript>
+    <div style="
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      background: #fef2f2; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    ">
+      <div>
+        <h1 style="color: #dc2626; margin-bottom: 20px;">JavaScript requis</h1>
+        <p style="color: #7f1d1d; font-size: 18px; margin-bottom: 20px;">
+          AutoCare Pro nécessite JavaScript pour fonctionner correctement.
+        </p>
+        <p style="color: #991b1b; font-size: 16px;">
+          Veuillez activer JavaScript dans votre navigateur et recharger la page.
+        </p>
+      </div>
+    </div>
+  </noscript>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <!-- Message pour les navigateurs non supportés -->
+  <div class="unsupported-browser" id="unsupported-browser">
+    <div style="max-width: 600px; margin: 0 auto; padding-top: 100px;">
+      <h1 style="color: #dc2626; margin-bottom: 20px;">Navigateur non supporté</h1>
+      <p style="color: #7f1d1d; font-size: 18px; margin-bottom: 30px;">
+        Votre navigateur n'est pas compatible avec AutoCare Pro.
+      </p>
+      <p style="color: #991b1b; font-size: 16px; margin-bottom: 30px;">
+        Veuillez utiliser une version récente de :
+      </p>
+      <ul style="color: #991b1b; text-align: left; display: inline-block;">
+        <li>Chrome 90+</li>
+        <li>Firefox 90+</li>
+        <li>Safari 14+</li>
+        <li>Edge 90+</li>
+      </ul>
+    </div>
+  </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <!-- Container principal pour React -->
+  <div id="root"></div>
+
+  <!-- Loader affiché pendant le chargement initial -->
+  <div class="loading-container">
+    <div style="text-align: center;">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">AutoCare Pro</div>
+      <div style="color: #6b7280; font-size: 14px; margin-top: 10px;">
+        Chargement en cours...
+      </div>
+    </div>
+  </div>
+
+  <!-- Script de détection de navigateur -->
+  <script>
+    // Détection basique de support des fonctionnalités modernes
+    (function() {
+      var isSupported = (
+        'Promise' in window &&
+        'fetch' in window &&
+        'Map' in window &&
+        'Set' in window &&
+        'Symbol' in window &&
+        'Array' in window && Array.prototype.includes &&
+        'Object' in window && Object.assign
+      );
+
+      if (!isSupported) {
+        document.getElementById('unsupported-browser').style.display = 'block';
+        return;
+      }
+
+      // Chargement différé des polyfills si nécessaire
+      if (!window.IntersectionObserver) {
+        var script = document.createElement('script');
+        script.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+        document.head.appendChild(script);
+      }
+    })();
+
+    // Performance: Préchargement des ressources critiques
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function() {
+        // Préchargement des images importantes
+        var criticalImages = [
+          '/logo192.png',
+          '/og-image.png'
+        ];
+        
+        criticalImages.forEach(function(src) {
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = src;
+          document.head.appendChild(link);
+        });
+      });
+    }
+
+    // Analytics: Mesure de performance
+    if ('performance' in window) {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var perfData = performance.getEntriesByType('navigation')[0];
+          if (perfData) {
+            console.log('⚡ Performance:', {
+              'DOM Content Loaded': Math.round(perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart) + 'ms',
+              'Load Complete': Math.round(perfData.loadEventEnd - perfData.loadEventStart) + 'ms',
+              'Total Load Time': Math.round(perfData.loadEventEnd - perfData.navigationStart) + 'ms'
+            });
+          }
+        }, 0);
+      });
+    }
+
+    // Service Worker registration pour PWA (en production uniquement)
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(registration) {
+            console.log('✅ SW registered:', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('❌ SW registration failed:', error);
+          });
+      });
+    }
+  </script>
+
+  <!-- Google Analytics (remplacez GA_MEASUREMENT_ID par votre ID) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> -->
+  <!-- <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script> -->
+
+</body>
 </html>
