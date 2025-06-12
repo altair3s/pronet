@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "Dashboard professionnel pour la gestion de flotte de véhicules - nettoyage et entretien",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://altair3s.github.io/pronet",
   "keywords": [
     "dashboard",
     "fleet-management",
@@ -41,6 +41,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy":"npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

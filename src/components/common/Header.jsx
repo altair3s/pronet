@@ -23,7 +23,7 @@ const Header = ({
   showNotifications = true,
   notificationCount = 0,
   onMenuToggle,
-  user = { name: 'Admin', email: 'admin@autocare.fr', avatar: null }
+  user = { name: 'Admin', email: 'admin@pronet.fr', avatar: null }
 }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchValue, setSearchValue] = useState('');
